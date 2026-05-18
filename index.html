@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Peter Odutola | Physician · AI Researcher · Biomedical Innovator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --deep: #1a2e42;
+    --accent: #2dd4bf;
+    --gold: #d4a843;
+    --text: #e8edf2;
+    --muted: #8a9bb0;
+    --card: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(13,27,42,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(45,212,191,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(212,168,67,0.05) 0%, transparent 50%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-bio {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #b0bec8;
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+
+  .btn-primary {
+    padding: 0.8rem 2rem;
+    background: var(--accent);
+    color: var(--navy);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    padding: 0.8rem 2rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* Hero right panel */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .credential-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .credential-card:hover {
+    border-color: rgba(45,212,191,0.3);
+    transform: translateX(4px);
+  }
+
+  .cred-icon {
+    font-size: 1.5rem;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  .cred-title {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+  }
+
+  .cred-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    display: block;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 6rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 0 4rem;
+    max-width: calc(1200px - 8rem);
+  }
+
+  /* ── AI PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .project-card:hover {
+    border-color: rgba(45,212,191,0.25);
+    transform: translateY(-4px);
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .project-name {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    color: var(--text);
+  }
+
+  .project-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 0.8rem; }
+
+  /* ── PUBLICATIONS ── */
+  .pub-list { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .pub-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 1.5rem 1.8rem;
+    transition: all 0.2s;
+  }
+
+  .pub-item:hover {
+    border-left-color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .pub-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .pub-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .pub-doi {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .pub-doi:hover { text-decoration: underline; }
+
+  /* ── CLINICAL ── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline-item:last-child { border-bottom: none; }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 0.2rem;
+  }
+
+  .timeline-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .timeline-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── CERTIFICATIONS ── */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .cert-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .cert-card:hover {
+    border-color: rgba(212,168,67,0.4);
+    transform: translateY(-3px);
+  }
+
+  .cert-icon { font-size: 2rem; margin-bottom: 0.8rem; display: block; }
+
+  .cert-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: var(--text);
+  }
+
+  .cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SPEAKING ── */
+  .speaking-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .speaking-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .speaking-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .speaking-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .affil-list { display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .affil-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+
+  .affil-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: rgba(45,212,191,0.03);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    max-width: 100%;
+    padding: 5rem 4rem;
+  }
+
+  .contact-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1rem 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .contact-link-icon {
+    font-size: 1.2rem;
+    min-width: 1.5rem;
+    text-align: center;
+  }
+
+  .contact-link-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    display: block;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem 4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero-right { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; }
+    .certs-grid { grid-template-columns: 1fr 1fr; }
+    .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .speaking-card { grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; }
+    .divider { margin: 0 1.5rem; }
+  }
+
+  @media (max-width: 600px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .certs-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Dr. Peter Odutola</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#clinical">Clinical</a></li>
+    <li><a href="#certifications">Credentials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding-top: 8rem;">
+  <div class="hero-bg"></div>
+  <div class="hero-grid" style="max-width:1200px; margin:0 auto;">
+    <div>
+      <p class="hero-eyebrow">Physician · AI Researcher · Biomedical Innovator</p>
+      <h1 class="hero-name">Dr. Peter<br><em>Odutola</em></h1>
+      <p class="hero-title">M.D. · M.B.B.S. · CDIP · ECFMG</p>
+      <p class="hero-bio">
+        A physician-scientist at the frontier of medicine and artificial intelligence. 
+        My work spans LLM evaluation for safety-critical clinical applications, 
+        empirical research, CRISPR genomics, and AI-powered healthcare tools — 
+        driven by a conviction that the most consequential AI challenges require 
+        clinician voices at the table.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">7</span>
+          <span class="stat-label">Publications</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">8+</span>
+          <span class="stat-label">Clinical Trials</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">10+</span>
+          <span class="stat-label">AI Projects</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">5+</span>
+          <span class="stat-label">Yrs Clinical AI</span>
+        </div>
+      </div>
+      <div class="hero-ctas">
+        <a href="#research" class="btn-primary">View Research</a>
+        <a href="https://github.com/drodutola" target="_blank" class="btn-secondary">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="credential-card">
+        <span class="cred-icon">🧬</span>
+        <div>
+          <span class="cred-title">CRISPR Gene Editing Certification</span>
+          <span class="cred-sub">Harvard University · 2021</span>
+        </div>
+      </div>
+      <div class="credential-card">
+        <span class="cred-icon">🤖</span>
+        <div>
+          <span class="cred-title">Machine Learning with Python</span>
+          <span class="cred-sub">IBM Certification · Verified</span>
+        </div>
+      </div>
+      <div class="credential-card">
+        <span class="cred-icon">🏥</span>
+        <div>
+          <span class="cred-title">AI & Healthcare Certificate</span>
+          <span class="cred-sub">Harvard Medical School</span>
+        </div>
+      </div>
+      <div class="credential-card">
+        <span class="cred-icon">📊</span>
+        <div>
+          <span class="cred-title">Clinical Documentation Improvement</span>
+          <span class="cred-sub">CDIP Certified · AHIMA</span>
+        </div>
+      </div>
+      <div class="credential-card">
+        <span class="cred-icon">🎤</span>
+        <div>
+          <span class="cred-title">Inaugural Conference Speaker</span>
+          <span class="cred-sub">American College of AI & Medicine · ACAIM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI PROJECTS -->
+<section id="projects">
+  <p class="section-label fade-in">Built & Deployed</p>
+  <h2 class="section-title fade-in">AI <em>Projects</em></h2>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Medical AI · LLM</span>
+      <p class="project-name">Endocrine Boards Coach</p>
+      <p class="project-desc">AI-powered Q-bank generator for physician board exam preparation. Dynamic MCQ generation with detailed clinical explanations and adaptive difficulty.</p>
+      <a href="https://github.com/drodutola/endocrine_boards_coach" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Clinical AI · ICD-10</span>
+      <p class="project-name">Coded History AI</p>
+      <p class="project-desc">Generates disease risk scores from patient ICD-10 coded medical history. Predicts cardiovascular risk, readmission probability, and AKI likelihood.</p>
+      <a href="https://github.com/drodutola/coded-history-ai" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Genomics · Python</span>
+      <p class="project-name">CRISPR Analyzer</p>
+      <p class="project-desc">RNA sequence analysis tool for CRISPR-Cas9 workflows. sgRNA design, off-target prediction, and sequence validation pipeline.</p>
+      <a href="https://github.com/drodutola/crispr_analyzer" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Oncology · ML</span>
+      <p class="project-name">Cancer Drug Predictor</p>
+      <p class="project-desc">ML model predicting optimal drug candidates for breast, ovarian, and colon cancers from tumor and patient features. Deployed on Heroku.</p>
+      <a href="https://github.com/drodutola/cancerdrug_predictor" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Finance · NLP</span>
+      <p class="project-name">Crypto Sentiment Bot</p>
+      <p class="project-desc">Buy/sell signal generator combining RSI, MACD, Bollinger Bands, and NLP sentiment analysis for BTC/USDT and XMR/USDT pairs.</p>
+      <a href="https://github.com/drodutola/crypto-sentiment-bot" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">NLP · Automation</span>
+      <p class="project-name">MOA Transcriber</p>
+      <p class="project-desc">Pipeline converting medical animation videos (WEBM→MP4) and generating AI transcripts via OpenAI Whisper for multi-platform distribution.</p>
+      <a href="https://github.com/drodutola/MOA-Transcriber" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Genomics · Cancer</span>
+      <p class="project-name">Cancer Mutation Analyzer</p>
+      <p class="project-desc">Analyzes DNA mutation patterns and oncogenesis pathways. Flags driver gene mutations, COSMIC signatures, and classifies cancer type from mutation profiles.</p>
+      <a href="https://github.com/drodutola/cancer" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Finance · Dashboard</span>
+      <p class="project-name">Crypto Futures Dashboard</p>
+      <p class="project-desc">Real-time dashboard monitoring crypto futures markets — price feeds, open interest, funding rates, and sentiment across major pairs.</p>
+      <a href="https://github.com/drodutola/crypto_dashboard" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card fade-in">
+      <span class="project-tag">Diabetes · ML</span>
+      <p class="project-name">Diabetes Risk & Monitoring</p>
+      <p class="project-desc">ML-based diabetes risk prediction and remote monitoring outcome analysis. Connected to published peer-reviewed meta-analysis (doi:10.1002/med4.70008).</p>
+      <a href="https://github.com/drodutola/Diabetes" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PUBLICATIONS -->
+<section id="research">
+  <p class="section-label fade-in">Peer-Reviewed</p>
+  <h2 class="section-title fade-in">Research &amp; <em>Publications</em></h2>
+  <div class="pub-list">
+
+    <div class="pub-item fade-in">
+      <p class="pub-title">Effectiveness of Atrial Natriuretic Peptide in the Treatment of Critically Ill Patients: A Systematic Review and Meta-Analysis</p>
+      <p class="pub-meta">Journal of Clinical Medicine, 2025 · Odutola PO, Olarewaju A, Shah P · <a href="https://doi.org/10.3390/jcm14103267" target="_blank" class="pub-doi">doi:10.3390/jcm14103267</a></p>
+    </div>
+
+    <div class="pub-item fade-in">
+      <p class="pub-title">Effectiveness of Remote Monitoring in the Management of Diabetes Mellitus: Systematic Review and Meta-Analysis</p>
+      <p class="pub-meta">2024 · <a href="https://doi.org/10.1002/med4.70008" target="_blank" class="pub-doi">doi:10.1002/med4.70008</a></p>
+    </div>
+
+    <div class="pub-item fade-in">
+      <p class="pub-title">IV Ketamine Infusion Therapy for Chronic Pain: A Systematic Review and Meta-Analysis</p>
+      <p class="pub-meta">2024 · <a href="https://doi.org/10.1002/med4.45" target="_blank" class="pub-doi">doi:10.1002/med4.45</a></p>
+    </div>
+
+    <div class="pub-item fade-in">
+      <p class="pub-title">Single vs. Double Umbilical Cord Blood Transplantation in Acute Leukemia: Systematic Review and Meta-Analysis</p>
+      <p class="pub-meta">Leukemia Research, 2024 · <a href="https://doi.org/10.1016/j.leukres.2024.107517" target="_blank" class="pub-doi">doi:10.1016/j.leukres.2024.107517</a></p>
+    </div>
+
+    <div class="pub-item fade-in">
+      <p class="pub-title">Intrahepatic Cholestasis of Pregnancy and Risk of Hepatobiliary Disease and Adverse Fetal Outcomes: A Systematic Review and Meta-Analysis</p>
+      <p class="pub-meta">iLiver, 2023 · <a href="https://doi.org/10.1016/j.iliver.2023.11.001" target="_blank" class="pub-doi">doi:10.1016/j.iliver.2023.11.001</a></p>
+    </div>
+
+    <div class="pub-item fade-in">
+      <p class="pub-title">Meta-Analysis of Ofatumumab in the Treatment of Relapsing-Remitting Multiple Sclerosis</p>
+      <p class="pub-meta">2023 · <a href="https://doi.org/10.1002/med4.33" target="_blank" class="pub-doi">doi:10.1002/med4.33</a></p>
+    </div>
+
+    <div class="pub-item fade-in">
+      <p class="pub-title">Video-Observed vs. Directly Observed Therapy for Tuberculosis Treatment: A Systematic Review</p>
+      <p class="pub-meta">PLOS NTD · <a href="https://doi.org/10.1371/journal.pntd.0012565" target="_blank" class="pub-doi">doi:10.1371/journal.pntd.0012565</a></p>
+    </div>
+
+    <div class="pub-item fade-in" style="border-left-color: var(--muted);">
+      <p class="pub-title">Opioid Consumption and the Risk of Gastrointestinal Cancers — Systematic Review and Meta-Analysis</p>
+      <p class="pub-meta" style="color: var(--gold);">In preparation · with Dr. Martin Job, PhD · Expected submission 2025</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLINICAL EXPERIENCE -->
+<section id="clinical">
+  <p class="section-label fade-in">Experience</p>
+  <h2 class="section-title fade-in">Clinical &amp; AI <em>Work</em></h2>
+  <div class="timeline">
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">2023 – Present</div>
+      <div>
+        <p class="timeline-title">AI Content Auditor & LLM Evaluator</p>
+        <span class="timeline-org">Freelance / Remote</span>
+        <p class="timeline-desc">Auditing high-complexity STEM and medical prompts for frontier generative AI models. Evaluating LLM outputs for factual accuracy, clinical safety, and reasoning quality. Designing evaluation rubrics and providing structured feedback to improve model reliability in high-stakes healthcare scenarios.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">2021 – Present</div>
+      <div>
+        <p class="timeline-title">AI Applications Developer</p>
+        <span class="timeline-org">MedMotion / Independent</span>
+        <p class="timeline-desc">Building Python-based ML tools for healthcare: cancer drug prediction, diabetes risk stratification, medical chatbots, NLP pipelines, and algorithmic trading systems. Developing and distributing medical education content via automated transcription pipelines.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">Ongoing</div>
+      <div>
+        <p class="timeline-title">Clinical Researcher & Phase 2/3 Trial Contributor</p>
+        <span class="timeline-org">Global Oncology Trials</span>
+        <p class="timeline-desc">Contributed to 8+ Phase 2/3 oncology trials spanning GBM, AML, multiple myeloma, and solid tumors across North America, Europe, and Asia. Roles include endpoint adjudication, imaging review, TMF oversight, regulatory documentation, and ICD-10-CM coding.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">2021</div>
+      <div>
+        <p class="timeline-title">CRISPR Gene Editing Researcher</p>
+        <span class="timeline-org">Harvard University</span>
+        <p class="timeline-desc">Conducted CRISPR-Cas9 experiments: sgRNA design targeting specific loci, edit validation via sequencing and gel electrophoresis, gene knockout/insertion models in mammalian systems, and off-target impact analysis.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item fade-in">
+      <div class="timeline-date">5+ Years</div>
+      <div>
+        <p class="timeline-title">Physician — Hospital, Outpatient & Telehealth</p>
+        <span class="timeline-org">Clinical Practice</span>
+        <p class="timeline-desc">Patient care, triage, clinical documentation, and medical coding (ICD-10-CM) across hospital, outpatient, and telehealth settings. Senior medical writing and regulatory documentation for FDA/EMA submissions.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <p class="section-label fade-in">Credentials</p>
+  <h2 class="section-title fade-in">Education &amp; <em>Certifications</em></h2>
+  <div class="certs-grid">
+    <div class="cert-card fade-in">
+      <span class="cert-icon">🎓</span>
+      <p class="cert-name">M.B.B.S. (Medicine & Surgery)</p>
+      <p class="cert-issuer">Obafemi Awolowo University</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">🧬</span>
+      <p class="cert-name">Diploma in Molecular Gene Editing (CRISPR)</p>
+      <p class="cert-issuer">Harvard University · 2021</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">👶</span>
+      <p class="cert-name">Diploma in Pediatric & Child Health</p>
+      <p class="cert-issuer">Imperial College London · 2012</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">🤖</span>
+      <p class="cert-name">Machine Learning with Python</p>
+      <p class="cert-issuer">IBM Certification</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">🐍</span>
+      <p class="cert-name">Certified Python Developer</p>
+      <p class="cert-issuer">Professional Certification</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">📋</span>
+      <p class="cert-name">Clinical Documentation Improvement Practitioner</p>
+      <p class="cert-issuer">CDIP · AHIMA</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">🏥</span>
+      <p class="cert-name">ECFMG Certification</p>
+      <p class="cert-issuer">US Medical Licensure</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">📝</span>
+      <p class="cert-name">Peer Reviewer</p>
+      <p class="cert-issuer">BMC Neurology · Frontiers in Medicine</p>
+    </div>
+    <div class="cert-card fade-in">
+      <span class="cert-icon">🌐</span>
+      <p class="cert-name">Professional Memberships</p>
+      <p class="cert-issuer">ACP · ACAIM · AHIMA · AMWA</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SPEAKING & COMMUNITY -->
+<section id="speaking">
+  <p class="section-label fade-in">Community</p>
+  <h2 class="section-title fade-in">Speaking &amp; <em>Affiliations</em></h2>
+  <div class="speaking-card fade-in">
+    <div>
+      <p class="speaking-label">🎤 Inaugural Conference Presentation</p>
+      <h3 class="speaking-title">AI-Powered Patient Triage Chatbot</h3>
+      <p class="speaking-desc">Presented original work at the inaugural Scientific Session of the American College of Artificial Intelligence and Medicine (ACAIM) at McCormick Place, Chicago. Demonstrated a Python-based medical chatbot for hospital patient triage, integrating clinical decision logic with natural language processing. As a Pioneer Member of ACAIM, contributed to establishing the organization's inaugural research agenda at the intersection of physician practice and artificial intelligence.</p>
+    </div>
+    <div class="affil-list">
+      <div class="affil-item">
+        <div class="affil-dot"></div>
+        <span>American College of Physicians (ACP)</span>
+      </div>
+      <div class="affil-item">
+        <div class="affil-dot"></div>
+        <span>American College of AI & Medicine (ACAIM) — Pioneer Member</span>
+      </div>
+      <div class="affil-item">
+        <div class="affil-dot"></div>
+        <span>American Health Information Management Assoc. (AHIMA)</span>
+      </div>
+      <div class="affil-item">
+        <div class="affil-dot"></div>
+        <span>American Medical Writers Association (AMWA)</span>
+      </div>
+      <div class="affil-item">
+        <div class="affil-dot"></div>
+        <span>Peer Reviewer — BMC Neurology & Frontiers in Medicine</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding: 5rem 4rem;">
+  <div class="contact-inner">
+    <div>
+      <p class="section-label">Get in Touch</p>
+      <h2 class="section-title" style="margin-bottom: 1rem;">Let's <em>Connect</em></h2>
+      <p style="color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 400px;">
+        Open to research collaborations, AI safety discussions, clinical AI consulting, and speaking opportunities at the intersection of medicine and artificial intelligence.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a href="https://github.com/drodutola" target="_blank" class="contact-link">
+        <span class="contact-link-icon">⌨️</span>
+        <div>
+          <span class="contact-link-label">GitHub</span>
+          github.com/drodutola
+        </div>
+      </a>
+      <a href="https://www.linkedin.com/in/peter-odutola-058a28187/" target="_blank" class="contact-link">
+        <span class="contact-link-icon">💼</span>
+        <div>
+          <span class="contact-link-label">LinkedIn</span>
+          Dr. Peter Odutola
+        </div>
+      </a>
+      <a href="mailto:drodutola@yahoo.com" class="contact-link">
+        <span class="contact-link-icon">✉️</span>
+        <div>
+          <span class="contact-link-label">Email</span>
+          drodutola@yahoo.com
+        </div>
+      </a>
+      <a href="https://doi.org/10.3390/jcm14103267" target="_blank" class="contact-link">
+        <span class="contact-link-icon">📄</span>
+        <div>
+          <span class="contact-link-label">Latest Publication</span>
+          Journal of Clinical Medicine, 2025
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Dr. Peter Odutola · Physician · AI Researcher · Biomedical Innovator</p>
+</footer>
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
