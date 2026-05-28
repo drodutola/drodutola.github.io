@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endocrine Boards Coach — AI-Powered Board Exam Prep for Physicians</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1a;
+    --surface: #111827;
+    --card: #161f2e;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00d4a8;
+    --gold: #f5c842;
+    --red: #ff6b6b;
+    --text: #e8edf4;
+    --muted: #6b7e9a;
+    --tier1: #3b82f6;
+    --tier2: #00d4a8;
+    --tier3: #f5c842;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── ANNOUNCEMENT BAR ── */
+  .announcement {
+    background: var(--accent);
+    color: var(--bg);
+    text-align: center;
+    padding: 0.6rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(10,15,26,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .nav-logo-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--bg);
+  }
+
+  .nav-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .nav-logo-text span { color: var(--accent); }
+
+  .nav-cta {
+    padding: 0.6rem 1.5rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover { background: #fff; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding: 5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 60% 40%, rgba(0,212,168,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(245,200,66,0.05) 0%, transparent 50%);
+  }
+
+  /* Animated grid lines */
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,168,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,168,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  .hero-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,212,168,0.1);
+    border: 1px solid rgba(0,212,168,0.3);
+    padding: 0.4rem 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: #9ab0c8;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 520px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-proof {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .proof-check { color: var(--accent); font-size: 0.9rem; }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1s;
+  }
+
+  .btn-hero {
+    padding: 1rem 2.5rem;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-hero:hover { background: #fff; transform: translateY(-2px); }
+
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--accent); }
+
+  /* Hero right — demo card */
+  .hero-demo {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .demo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .demo-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .demo-topic {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--border);
+  }
+
+  .demo-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  .demo-options { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; }
+
+  .demo-option {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: #9ab0c8;
+  }
+
+  .demo-option:hover { border-color: var(--accent); color: var(--text); }
+  .demo-option.correct { border-color: var(--accent); background: rgba(0,212,168,0.08); color: var(--accent); }
+  .demo-option.wrong { border-color: var(--red); background: rgba(255,107,107,0.08); color: var(--red); }
+
+  .demo-opt-letter {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    min-width: 1.2rem;
+  }
+
+  .demo-explanation {
+    background: rgba(0,212,168,0.06);
+    border: 1px solid rgba(0,212,168,0.2);
+    padding: 1rem;
+    font-size: 0.82rem;
+    color: #9ab0c8;
+    line-height: 1.6;
+    display: none;
+  }
+
+  .demo-explanation.show { display: block; }
+
+  .demo-explanation strong { color: var(--accent); }
+
+  .demo-btn {
+    width: 100%;
+    padding: 0.7rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all 0.2s;
+  }
+
+  .demo-btn:hover { background: #fff; }
+
+  /* ── SOCIAL PROOF ── */
+  .trust-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    text-align: center;
+  }
+
+  .trust-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--accent);
+    display: block;
+  }
+
+  .trust-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+    display: block;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 6rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  .section-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 580px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* ── FEATURES ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+
+  .feature-card:hover { border-color: rgba(0,212,168,0.2); transform: translateY(-4px); }
+  .feature-card:hover::after { transform: scaleX(1); }
+
+  .feature-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+
+  .feature-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+
+  .feature-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── TOPICS ── */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .topic-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1rem 1.2rem;
+    font-size: 0.85rem;
+    color: #9ab0c8;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .topic-chip:hover { border-color: rgba(0,212,168,0.3); color: var(--text); }
+  .topic-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--surface); padding: 6rem 0; }
+
+  .pricing-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .price-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .price-card:hover { transform: translateY(-4px); }
+
+  .price-card.featured {
+    border-color: var(--accent);
+    transform: scale(1.03);
+  }
+
+  .price-card.featured:hover { transform: scale(1.03) translateY(-4px); }
+
+  .featured-badge {
+    position: absolute;
+    top: -1px; left: 50%; transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--bg);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 1.2rem;
+    font-weight: 500;
+  }
+
+  .price-tier {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .price-tier.t1 { color: var(--tier1); }
+  .price-tier.t2 { color: var(--tier2); }
+  .price-tier.t3 { color: var(--tier3); }
+
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .price-amount sup {
+    font-size: 1.5rem;
+    vertical-align: super;
+    font-weight: 400;
+  }
+
+  .price-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .price-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+
+  .price-features li {
+    font-size: 0.88rem;
+    color: #9ab0c8;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    line-height: 1.4;
+  }
+
+  .price-features li::before {
+    content: '✓';
+    color: var(--accent);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .price-features li.muted::before { color: var(--muted); content: '–'; }
+  .price-features li.muted { color: var(--muted); }
+
+  .btn-price {
+    display: block;
+    width: 100%;
+    padding: 0.9rem;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-price-primary { background: var(--accent); color: var(--bg); }
+  .btn-price-primary:hover { background: #fff; }
+
+  .btn-price-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .btn-price-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-price-gold { background: var(--gold); color: var(--bg); }
+  .btn-price-gold:hover { background: #fff; }
+
+  /* ── GUARANTEE ── */
+  .guarantee {
+    text-align: center;
+    padding: 3rem 4rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .guarantee-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+
+  .guarantee-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+
+  .guarantee-text { font-size: 0.92rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── AUTHOR ── */
+  #author { padding: 6rem 4rem; max-width: 1100px; margin: 0 auto; }
+
+  .author-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .author-avatar {
+    width: 120px; height: 120px;
+    background: linear-gradient(135deg, var(--accent), #0099ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .author-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .author-bio { font-size: 0.92rem; color: #9ab0c8; line-height: 1.75; margin-bottom: 1.2rem; }
+
+  .author-creds {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .cred-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── FAQ ── */
+  #faq { padding: 6rem 4rem; max-width: 800px; margin: 0 auto; }
+
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 0;
+  }
+
+  .faq-question {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text);
+  }
+
+  .faq-answer { font-size: 0.9rem; color: var(--muted); line-height: 1.75; }
+
+  /* ── FINAL CTA ── */
+  #final-cta {
+    background: linear-gradient(135deg, rgba(0,212,168,0.1), rgba(0,153,255,0.05));
+    border-top: 1px solid rgba(0,212,168,0.2);
+    border-bottom: 1px solid rgba(0,212,168,0.2);
+    padding: 6rem 4rem;
+    text-align: center;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 4rem;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    #hero { padding: 4rem 1.5rem; }
+    .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .topics-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .price-card.featured { transform: scale(1); }
+    .trust-bar { padding: 2rem 1.5rem; gap: 2rem; }
+    .section, #author, #faq { padding: 4rem 1.5rem; }
+    .author-card { grid-template-columns: 1fr; text-align: center; }
+    .author-creds { justify-content: center; }
+    #final-cta { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="announcement">
+  🎓 Built by a physician. Powered by AI. Designed to get you through boards. — Early Access Pricing Now Live
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo-icon">🧬</div>
+    <span class="nav-logo-text">Endocrine <span>Boards</span> Coach</span>
+  </div>
+  <a href="#pricing" class="nav-cta">Get Access →</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-badge">
+        <div class="badge-dot"></div>
+        AI-Powered · Physician-Built · Board-Focused
+      </div>
+      <h1 class="hero-headline">
+        Stop Memorizing.<br>
+        Start <em>Understanding</em><br>
+        Endocrinology.
+      </h1>
+      <p class="hero-sub">
+        The first AI-powered board exam coach built by a practicing physician. 
+        Unlimited adaptive questions, detailed clinical explanations, and 
+        performance tracking — all tuned for ABIM and subspecialty boards.
+      </p>
+      <div class="hero-proof">
+        <div class="proof-item">
+          <span class="proof-check">✓</span>
+          <span>Unlimited AI-generated questions</span>
+        </div>
+        <div class="proof-item">
+          <span class="proof-check">✓</span>
+          <span>One-time payment</span>
+        </div>
+        <div class="proof-item">
+          <span class="proof-check">✓</span>
+          <span>No subscription</span>
+        </div>
+      </div>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn-hero">See Pricing →</a>
+        <a href="#demo" class="btn-ghost">Try a sample question ↓</a>
+      </div>
+    </div>
+
+    <!-- LIVE DEMO CARD -->
+    <div class="hero-demo" id="demo">
+      <div class="demo-header">
+        <span class="demo-label">🤖 Live Sample Question</span>
+        <span class="demo-topic">Thyroid · Medium Difficulty</span>
+      </div>
+      <p class="demo-question">
+        A 34-year-old woman presents with palpitations, weight loss, and heat intolerance for 3 months. TSH is undetectable, free T4 is elevated. She is 10 weeks pregnant. Which of the following is the most appropriate initial management?
+      </p>
+      <div class="demo-options" id="demoOptions">
+        <div class="demo-option" onclick="selectOption(this, false)">
+          <span class="demo-opt-letter">A</span>
+          Radioactive iodine ablation
+        </div>
+        <div class="demo-option" onclick="selectOption(this, false)">
+          <span class="demo-opt-letter">B</span>
+          Total thyroidectomy
+        </div>
+        <div class="demo-option" onclick="selectOption(this, true)">
+          <span class="demo-opt-letter">C</span>
+          Propylthiouracil (PTU) at lowest effective dose
+        </div>
+        <div class="demo-option" onclick="selectOption(this, false)">
+          <span class="demo-opt-letter">D</span>
+          Methimazole 30mg daily
+        </div>
+      </div>
+      <div class="demo-explanation" id="demoExplanation">
+        <strong>✓ Correct — C: PTU in first trimester</strong><br><br>
+        In pregnant patients with hyperthyroidism, RAI is absolutely contraindicated. PTU is preferred over methimazole in the <strong>first trimester</strong> due to methimazole's association with aplasia cutis and choanal atresia. Use the lowest effective dose; switch to methimazole after T1 due to PTU's hepatotoxicity risk. Surgery is reserved for cases refractory to medical therapy.
+      </div>
+      <button class="demo-btn" onclick="nextQuestion()">Next Question →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <span class="trust-number">500+</span>
+    <span class="trust-label">Questions per tier</span>
+  </div>
+  <div class="trust-item">
+    <span class="trust-number">12</span>
+    <span class="trust-label">Endocrine topic areas</span>
+  </div>
+  <div class="trust-item">
+    <span class="trust-number">M.D.</span>
+    <span class="trust-label">Built by a physician</span>
+  </div>
+  <div class="trust-item">
+    <span class="trust-number">7</span>
+    <span class="trust-label">Peer-reviewed publications</span>
+  </div>
+  <div class="trust-item">
+    <span class="trust-number">100%</span>
+    <span class="trust-label">ABIM-aligned content</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section reveal">
+  <p class="section-eyebrow">What You Get</p>
+  <h2 class="section-title">Everything You Need to <em>Master</em> Endocrinology</h2>
+  <p class="section-sub">Not a static question bank. A dynamic AI coach that generates fresh questions, explains clinical reasoning, and tracks where you're weakest.</p>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <span class="feature-icon">🤖</span>
+      <h3 class="feature-title">AI-Generated Questions</h3>
+      <p class="feature-desc">Never run out of practice questions. The AI generates unique, high-yield board-style MCQs on demand — tailored to your weak areas.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">🩺</span>
+      <h3 class="feature-title">Physician-Level Explanations</h3>
+      <p class="feature-desc">Every answer comes with a detailed explanation grounded in clinical guidelines. Understand the "why," not just the answer.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">📊</span>
+      <h3 class="feature-title">Performance Tracking</h3>
+      <p class="feature-desc">Know exactly which topics you're weak in. Track your score by category and focus your limited study time where it counts.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">🎯</span>
+      <h3 class="feature-title">Adaptive Difficulty</h3>
+      <p class="feature-desc">Questions adjust to your performance level. As you improve, the difficulty increases — just like the real exam.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">⏱️</span>
+      <h3 class="feature-title">Timed Exam Mode</h3>
+      <p class="feature-desc">Simulate real board exam conditions with timed sessions. Build the speed and composure you need on test day.</p>
+    </div>
+    <div class="feature-card reveal">
+      <span class="feature-icon">📱</span>
+      <h3 class="feature-title">Study Anywhere</h3>
+      <p class="feature-desc">Access your coach from any device. Study between rounds, during call, or from home — no app download required.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TOPICS -->
+<div class="section reveal" style="padding-top: 0;">
+  <p class="section-eyebrow">Coverage</p>
+  <h2 class="section-title">Every <em>High-Yield</em> Endocrine Topic</h2>
+  <p class="section-sub">Comprehensive coverage aligned with ABIM Internal Medicine and Endocrinology subspecialty board blueprints.</p>
+  <div class="topics-grid">
+    <div class="topic-chip"><div class="topic-dot"></div>Type 1 & 2 Diabetes</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Thyroid Disorders</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Adrenal Disease</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Pituitary Disorders</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Metabolic Bone Disease</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Lipid Disorders</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Reproductive Endocrinology</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Neuroendocrine Tumors</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Diabetes Insipidus & SIADH</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Thyroid Cancer</div>
+    <div class="topic-chip"><div class="topic-dot"></div>MEN Syndromes</div>
+    <div class="topic-chip"><div class="topic-dot"></div>Endocrine Emergencies</div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="pricing-inner">
+    <p class="section-eyebrow reveal">Pricing</p>
+    <h2 class="section-title reveal">One-Time Payment. <em>No Subscription.</em></h2>
+    <p class="section-sub reveal">Pay once, study as long as you need. Credits never expire. Top up anytime.</p>
+    <div class="pricing-grid">
+
+      <!-- TIER 1 -->
+      <div class="price-card reveal">
+        <p class="price-tier t1">Starter</p>
+        <div class="price-amount"><sup>$</sup>97</div>
+        <p class="price-note">One-time · 500 question credits</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>500 AI-generated board questions</li>
+          <li>Full explanations for every answer</li>
+          <li>All 12 endocrine topic areas</li>
+          <li>Performance tracking dashboard</li>
+          <li>Study mode & timed exam mode</li>
+          <li class="muted">Adaptive difficulty engine</li>
+          <li class="muted">Priority content updates</li>
+        </ul>
+        <a href="https://jimio.gumroad.com/l/djksxt" target="_blank" class="btn-price btn-price-outline">Get Starter Access</a>
+      </div>
+
+      <!-- TIER 2 (FEATURED) -->
+      <div class="price-card featured reveal">
+        <div class="featured-badge">Most Popular</div>
+        <p class="price-tier t2">Resident</p>
+        <div class="price-amount"><sup>$</sup>197</div>
+        <p class="price-note">One-time · 2,000 question credits</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>2,000 AI-generated board questions</li>
+          <li>Full explanations for every answer</li>
+          <li>All 12 endocrine topic areas</li>
+          <li>Performance tracking dashboard</li>
+          <li>Study mode & timed exam mode</li>
+          <li>Adaptive difficulty engine</li>
+          <li class="muted">Priority content updates</li>
+        </ul>
+        <a href="https://jimio.gumroad.com/l/ndfpfl" target="_blank" class="btn-price btn-price-primary">Get Resident Access</a>
+      </div>
+
+      <!-- TIER 3 -->
+      <div class="price-card reveal">
+        <p class="price-tier t3">Board Ready</p>
+        <div class="price-amount"><sup>$</sup>497</div>
+        <p class="price-note">One-time · Unlimited for 12 months</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Unlimited questions for 12 months</li>
+          <li>Full explanations for every answer</li>
+          <li>All 12 endocrine topic areas</li>
+          <li>Performance tracking dashboard</li>
+          <li>Study mode & timed exam mode</li>
+          <li>Adaptive difficulty engine</li>
+          <li>Priority content updates</li>
+        </ul>
+        <a href="https://jimio.gumroad.com/l/mjlpyz" target="_blank" class="btn-price btn-price-gold">Get Board Ready Access</a>
+      </div>
+
+    </div>
+
+    <!-- CREDIT TOP-UP -->
+    <div style="text-align:center; margin-top: 2rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); max-width: 500px; margin: 2rem auto 0;">
+      <p style="font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--accent); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.5rem;">Need More?</p>
+      <p style="font-size:0.9rem; color:var(--muted);">Top up with <strong style="color:var(--text);">500 additional credits for $29</strong> anytime. Credits never expire.</p>
+    </div>
+
+    <!-- GUARANTEE -->
+    <div class="guarantee reveal">
+      <span class="guarantee-icon">🛡️</span>
+      <h3 class="guarantee-title">7-Day Money-Back Guarantee</h3>
+      <p class="guarantee-text">If you go through 50 questions and don't think this is the best board prep tool you've used, email us within 7 days for a full refund. No questions asked.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section id="author">
+  <div class="author-card reveal">
+    <div class="author-avatar">PO</div>
+    <div>
+      <h3 class="author-name">Dr. Peter Odutola, M.D.</h3>
+      <p class="author-title">Physician · AI Developer · Clinical Researcher</p>
+      <p class="author-bio">
+        I built this because I couldn't find a board prep tool that taught clinical reasoning rather than rote memorization. As a physician who has worked in hospital, outpatient, and clinical trial settings — and who has spent years applying AI to high-stakes medical problems — I know what it takes to think like an endocrinologist under pressure.
+        <br><br>
+        Every question in this coach is grounded in the same clinical framework I use in practice: not just "what's the answer" but "why does the physiology make this the right choice." That's what gets you through boards — and what makes you a better clinician.
+      </p>
+      <div class="author-creds">
+        <span class="cred-tag">M.B.B.S.</span>
+        <span class="cred-tag">CRISPR · Harvard</span>
+        <span class="cred-tag">IBM ML Certified</span>
+        <span class="cred-tag">CDIP · AHIMA</span>
+        <span class="cred-tag">7 Publications</span>
+        <span class="cred-tag">8+ Clinical Trials</span>
+        <span class="cred-tag">ACAIM Pioneer Member</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <p class="section-eyebrow reveal">FAQ</p>
+  <h2 class="section-title reveal">Common <em>Questions</em></h2>
+  <div style="margin-top: 2rem;">
+    <div class="faq-item reveal">
+      <p class="faq-question">Is this only for endocrinology fellows? ↓</p>
+      <p class="faq-answer">No — the content is designed for any physician who needs endocrinology on their boards. Internal medicine residents, family medicine residents, and practicing physicians doing MOC recertification all benefit. The content is aligned with ABIM blueprints.</p>
+    </div>
+    <div class="faq-item reveal">
+      <p class="faq-question">How is this different from UWorld or Amboss? ↓</p>
+      <p class="faq-answer">UWorld and Amboss have fixed question banks — you can exhaust them. This tool generates fresh, unique questions on demand using AI, so you never run out. It also provides adaptive difficulty and topic-specific tracking that static banks can't offer.</p>
+    </div>
+    <div class="faq-item reveal">
+      <p class="faq-question">What happens when I use all my credits? ↓</p>
+      <p class="faq-answer">You can top up with additional credits at any time — 500 credits for $29. Credits never expire, so there's no pressure to use them by a deadline.</p>
+    </div>
+    <div class="faq-item reveal">
+      <p class="faq-question">Do I need to download anything? ↓</p>
+      <p class="faq-answer">No. The coach runs entirely in your browser. Access it from your laptop, tablet, or phone — no app installation required.</p>
+    </div>
+    <div class="faq-item reveal">
+      <p class="faq-question">How accurate is the AI-generated content? ↓</p>
+      <p class="faq-answer">All content is generated using up-to-date clinical guidelines (ADA, ATA, Endocrine Society) and reviewed for accuracy. The physician who built this tool has direct clinical experience in endocrinology and brings the same rigor he applies to peer-reviewed research publications.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta">
+  <p class="section-eyebrow reveal" style="margin-bottom:1rem;">Ready to Pass?</p>
+  <h2 class="section-title reveal" style="margin-bottom:1rem; max-width:700px; margin-left:auto; margin-right:auto;">The Smartest Way to Study<br><em>Endocrinology for Boards</em></h2>
+  <p class="reveal" style="color:var(--muted); font-size:1rem; margin-bottom:2.5rem; max-width:500px; margin-left:auto; margin-right:auto; line-height:1.7;">One-time payment. No subscription. Built by a physician who has been where you are.</p>
+  <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;" class="reveal">
+    <a href="#pricing" class="btn-hero">Get Access Now →</a>
+    <a href="#demo" class="btn-ghost" style="display:flex; align-items:center;">Try a free sample question first</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Endocrine Boards Coach · Built by Dr. Peter Odutola, M.D. · <a href="https://drodutola.github.io" style="color:var(--accent); text-decoration:none;">drodutola.github.io</a></p>
+</footer>
+
+<script>
+  // Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Demo question interaction
+  let answered = false;
+
+  function selectOption(el, isCorrect) {
+    if (answered) return;
+    answered = true;
+
+    const options = document.querySelectorAll('.demo-option');
+    options.forEach(opt => {
+      opt.style.pointerEvents = 'none';
+    });
+
+    if (isCorrect) {
+      el.classList.add('correct');
+    } else {
+      el.classList.add('wrong');
+      // Show correct answer
+      options.forEach(opt => {
+        if (opt.querySelector('.demo-opt-letter').textContent === 'C') {
+          opt.classList.add('correct');
+        }
+      });
+    }
+
+    document.getElementById('demoExplanation').classList.add('show');
+  }
+
+  function nextQuestion() {
+    // Reset demo
+    answered = false;
+    const options = document.querySelectorAll('.demo-option');
+    options.forEach(opt => {
+      opt.classList.remove('correct', 'wrong');
+      opt.style.pointerEvents = 'auto';
+    });
+    document.getElementById('demoExplanation').classList.remove('show');
+
+    // Show a teaser message
+    const btn = document.querySelector('.demo-btn');
+    btn.textContent = '🔒 Get full access for more questions →';
+    btn.onclick = () => window.location.href = '#pricing';
+  }
+</script>
+
+</body>
+</html>
